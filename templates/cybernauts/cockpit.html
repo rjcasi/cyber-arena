@@ -1,0 +1,21 @@
+<h1>Cybernaut Cockpit</h1>
+
+<form method="POST" action="/cybernauts/think">
+    <label>Choose Cybernaut Profile:</label>
+    <select name="profile">
+        <option value="prime">Prime</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="grey">Grey</option>
+    </select>
+
+    <br><br>
+
+    <input name="message" placeholder="Enter a message">
+    <button type="submit">Send</button>
+</form>
+
+{% if cybernaut_response %}
+    <h3>Cybernaut Response</h3>
+    <pre>{{ cybernaut_response }}</pre>
+{% endif %}

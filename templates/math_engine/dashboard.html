@@ -1,0 +1,11 @@
+<h1>Math Engine</h1>
+
+<form method="POST" action="/math/compute">
+    <input name="query" placeholder="Enter number, vector, or physics query">
+    <button type="submit">Compute</button>
+</form>
+
+{% if result %}
+    <h3>Result</h3>
+    <pre>{{ result }}</pre>
+{% endif %}
