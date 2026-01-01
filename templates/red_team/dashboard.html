@@ -1,0 +1,39 @@
+<h1>Red Team Offensive Panel</h1>
+
+<h2>Recon Scan</h2>
+<form method="POST" action="/red/recon">
+    <input name="target" placeholder="Target (e.g., 192.168.1.10)">
+    <button type="submit">Run Recon</button>
+</form>
+
+{% if recon_results %}
+    <h3>Recon Results</h3>
+    <pre>{{ recon_results }}</pre>
+{% endif %}
+
+<hr>
+
+<h2>Fuzz Generator</h2>
+<form method="POST" action="/red/fuzz">
+    <input name="seed" placeholder="Seed string">
+    <input name="count" placeholder="Count" value="10">
+    <button type="submit">Generate Fuzz</button>
+</form>
+
+{% if fuzz_results %}
+    <h3>Fuzz Payloads</h3>
+    <pre>{{ fuzz_results }}</pre>
+{% endif %}
+
+<hr>
+
+<h2>AI Attack Simulator</h2>
+<form method="POST" action="/red/ai_attack">
+    <input name="vector" placeholder="Attack vector">
+    <button type="submit">Simulate</button>
+</form>
+
+{% if ai_results %}
+    <h3>AI Simulation Output</h3>
+    <pre>{{ ai_results }}</pre>
+{% endif %}

@@ -1,0 +1,51 @@
+<h1>Blue Team Defensive Panel</h1>
+
+<h2>Log Analysis</h2>
+<form method="POST" action="/blue/logs">
+    <input name="sample" placeholder="Log sample">
+    <button type="submit">Analyze Logs</button>
+</form>
+
+{% if log_results %}
+    <h3>Log Analysis Results</h3>
+    <pre>{{ log_results }}</pre>
+{% endif %}
+
+<hr>
+
+<h2>Anomaly Detection</h2>
+<form method="POST" action="/blue/anomaly">
+    <input name="data" placeholder="Data sample">
+    <button type="submit">Detect Anomalies</button>
+</form>
+
+{% if anomaly_results %}
+    <h3>Anomaly Results</h3>
+    <pre>{{ anomaly_results }}</pre>
+{% endif %}
+
+<hr>
+
+<h2>Zero Trust Evaluation</h2>
+<form method="POST" action="/blue/zero_trust">
+    <input name="identity" placeholder="User or device identity">
+    <button type="submit">Evaluate</button>
+</form>
+
+{% if zero_trust_score %}
+    <h3>Zero Trust Score</h3>
+    <pre>{{ zero_trust_score }}</pre>
+{% endif %}
+
+<hr>
+
+<h2>Deception Engine</h2>
+<form method="POST" action="/blue/deception">
+    <input name="count" placeholder="Event count" value="5">
+    <button type="submit">Generate Events</button>
+</form>
+
+{% if deception_events %}
+    <h3>Deception Events</h3>
+    <pre>{{ deception_events }}</pre>
+{% endif %}

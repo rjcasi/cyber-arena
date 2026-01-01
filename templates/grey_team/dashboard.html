@@ -1,0 +1,38 @@
+<h1>Grey Team Automation Panel</h1>
+
+<h2>Web Bot</h2>
+<form method="POST" action="/grey/web_bot">
+    <input name="url" placeholder="https://example.com">
+    <button type="submit">Run Web Bot</button>
+</form>
+
+{% if web_bot_result %}
+    <h3>Web Bot Output</h3>
+    <pre>{{ web_bot_result }}</pre>
+{% endif %}
+
+<hr>
+
+<h2>Recon Bot</h2>
+<form method="POST" action="/grey/recon_bot">
+    <input name="target" placeholder="Target (e.g., example.com)">
+    <button type="submit">Run Recon Bot</button>
+</form>
+
+{% if recon_bot_results %}
+    <h3>Recon Bot Results</h3>
+    <pre>{{ recon_bot_results }}</pre>
+{% endif %}
+
+<hr>
+
+<h2>Automation Engine</h2>
+<form method="POST" action="/grey/automation">
+    <input name="task" placeholder="Describe a task">
+    <button type="submit">Execute</button>
+</form>
+
+{% if automation_output %}
+    <h3>Automation Output</h3>
+    <pre>{{ automation_output }}</pre>
+{% endif %}
