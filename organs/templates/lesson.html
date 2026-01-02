@@ -1,15 +1,81 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Python Lab</h1>
-<ul>
-  {% for item in outline %}
-    <li><a href="/python-lab/lesson/{{ item.id }}">{{ item.title }}</a></li>
-  {% endfor %}
-</ul>
 
-<h2>Labs</h2>
-<ul>
-  <li><a href="/python-lab/lab/lab01">Variables Lab</a></li>
-  <li><a href="/python-lab/lab/lab02">Loops Lab</a></li>
-</ul>
+<div style="display: flex; gap: 40px;">
+
+  <!-- Sidebar -->
+  <div style="min-width: 250px; border-right: 1px solid #ccc; padding-right: 20px;">
+    <h3>Lessons</h3>
+    <ul>
+      {% for item in outline %}
+        <li>
+          <a href="/python-lab/lesson/{{ item.id }}">
+            {{ item.id }} — {{ item.title }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div style="flex-grow: 1;">
+    <h1>{{ lesson.title }}</h1>
+
+    <h3>Topics</h3>
+    <ul>
+      {% for t in lesson.topics %}
+        <li>{{ t }}</li>
+      {% endfor %}
+    </ul>
+
+    <h3>Examples</h3>
+    <pre>
+{% for ex in lesson.examples %}
+{{ ex }}
+
+{% endfor %}
+    </pre>
+  </div>
+
+</div>
+
+{% if next_lesson %}
+<hr>
+<a href="/python-lab/lesson/{{ next_lesson }}" 
+   style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; border-radius: 5px; text-decoration: none;">
+  Next Lesson →
+</a>
+{% endif %}
+
+<hr>
+
+<h3>Cybernaut Tutor</h3>
+
+<div id="tutor-output" 
+     style="white-space: pre-wrap; border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
+  Click a button to ask the Cybernaut.
+</div>
+
+<button onclick="askTutor('{{ lesson.title }}', '{{ lesson_id }}', 'explain')">
+  Explain this lesson
+</button>
+
+<button onclick="askTutor('{{ lesson.title }}', '{{ lesson_id }}', 'example')">
+  Give me an example
+</button>
+
+<button onclick="askTutor('{{ lesson.title }}', '{{ lesson_id }}', 'quiz')">
+  Quiz me
+</button>
+
+<script>
+function askTutor(title, lessonId, action) {
+    fetch(`/python-lab/tutor/${lessonId}/${action}`)
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById("tutor-output").innerText = data.response;
+        });
+}
+</script>
+
 {% endblock %}

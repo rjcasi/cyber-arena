@@ -1,18 +1,99 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>{{ lesson.title }}</h1>
 
-<h3>Topics</h3>
-<ul>
-  {% for c in lesson.content %}
-    <li>{{ c }}</li>
-  {% endfor %}
-</ul>
+<div style="display: flex; gap: 40px;">
 
-<h3>Examples</h3>
-<pre>
+  <!-- Sidebar Navigation -->
+  <div style="min-width: 250px; border-right: 1px solid #ccc; padding-right: 20px;">
+    <h3>Lessons</h3>
+    <ul>
+      {% for item in outline %}
+        <li>
+          <a href="/python-lab/lesson/{{ item.id }}">
+            {{ item.id }} — {{ item.title }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Main Lesson Content -->
+  <div style="flex-grow: 1;">
+
+    <h1>{{ lesson.title }}</h1>
+
+    <h3>Topics</h3>
+    <ul>
+      {% for t in lesson.topics %}
+        <li>{{ t }}</li>
+      {% endfor %}
+    </ul>
+
+    <h3>Examples</h3>
+    <pre>
 {% for ex in lesson.examples %}
 {{ ex }}
+
 {% endfor %}
-</pre>
+    </pre>
+
+    <!-- Mark Complete Button -->
+    <hr>
+    <button onclick="markComplete('{{ lesson_id }}')"
+            style="padding: 10px 20px; background: green; color: white; border-radius: 5px;">
+      Mark Lesson Complete
+    </button>
+
+    <!-- Next Lesson Button -->
+    {% if next_lesson %}
+    <br><br>
+    <a href="/python-lab/lesson/{{ next_lesson }}"
+       style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; border-radius: 5px; text-decoration: none;">
+      Next Lesson →
+    </a>
+    {% endif %}
+
+    <!-- Cybernaut Tutor Panel -->
+    <hr>
+    <h3>Cybernaut Tutor</h3>
+
+    <div id="tutor-output"
+         style="white-space: pre-wrap; border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
+      Click a button to ask the Cybernaut.
+    </div>
+
+    <button onclick="askTutor('{{ lesson_id }}', 'explain')">
+      Explain this lesson
+    </button>
+
+    <button onclick="askTutor('{{ lesson_id }}', 'example')">
+      Give me an example
+    </button>
+
+    <button onclick="askTutor('{{ lesson_id }}', 'quiz')">
+      Quiz me
+    </button>
+
+  </div>
+</div>
+
+<!-- JS for Tutor + Progress -->
+<script>
+function askTutor(lessonId, action) {
+    fetch(`/python-lab/tutor/${lessonId}/${action}`)
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById("tutor-output").innerText = data.response;
+        });
+}
+
+function markComplete(lessonId) {
+    fetch(`/python-lab/complete/${lessonId}`)
+        .then(r => r.json())
+        .then(data => {
+            alert("Lesson marked complete!");
+        });
+}
+</script>
+
 {% endblock %}

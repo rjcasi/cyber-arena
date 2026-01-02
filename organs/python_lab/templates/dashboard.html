@@ -1,15 +1,56 @@
 {% extends "base.html" %}
 {% block content %}
+
 <h1>Python Lab</h1>
+
+<!-- Progress Bar -->
+{% set completed = progress|length %}
+{% set total = outline|length %}
+{% set percent = (completed / total * 100) | round %}
+
+<h3>Progress: {{ completed }} / {{ total }} ({{ percent }}%)</h3>
+
+<div style="width: 100%; background: #ddd; height: 20px; border-radius: 5px; margin-bottom: 20px;">
+  <div style="width: {{ percent }}%; background: #4caf50; height: 20px; border-radius: 5px;"></div>
+</div>
+
+<!-- Lessons Section -->
+<h2>Lessons</h2>
 <ul>
   {% for item in outline %}
-    <li><a href="/python-lab/lesson/{{ item.id }}">{{ item.title }}</a></li>
+    <li>
+      <a href="/python-lab/lesson/{{ item.id }}">
+        {{ item.id }} — {{ item.title }}
+      </a>
+
+      {% if item.id in progress %}
+        <span style="color: green; font-weight: bold;">✔</span>
+      {% endif %}
+    </li>
   {% endfor %}
 </ul>
 
+<hr>
+
+<!-- Labs Section -->
 <h2>Labs</h2>
 <ul>
-  <li><a href="/python-lab/lab/lab01">Variables Lab</a></li>
-  <li><a href="/python-lab/lab/lab02">Loops Lab</a></li>
+  {% for key, lab in labs.items() %}
+    <li>
+      <a href="/python-lab/lab/{{ key }}">
+        {{ key }} — {{ lab.title }}
+      </a>
+    </li>
+  {% endfor %}
 </ul>
+
+<hr>
+<h2>Final Project</h2>
+<p>
+  <a href="/python-lab/final-project"
+     style="padding: 10px 20px; background: purple; color: white; border-radius: 5px; text-decoration: none;">
+    Generate Final Project →
+  </a>
+</p>
+
 {% endblock %}

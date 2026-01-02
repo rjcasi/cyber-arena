@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Python Lab</h1>
+
+<h2>Lessons</h2>
 <ul>
   {% for item in outline %}
-    <li><a href="/python-lab/lesson/{{ item.id }}">{{ item.title }}</a></li>
+    <li><a href="/python-lab/lesson/{{ item.id }}">{{ item.id }} — {{ item.title }}</a></li>
   {% endfor %}
 </ul>
 
 <h2>Labs</h2>
 <ul>
-  <li><a href="/python-lab/lab/lab01">Variables Lab</a></li>
-  <li><a href="/python-lab/lab/lab02">Loops Lab</a></li>
+  {% for key, lab in labs.items() %}
+    <li><a href="/python-lab/lab/{{ key }}">{{ key }} — {{ lab.title }}</a></li>
+  {% endfor %}
 </ul>
 {% endblock %}
