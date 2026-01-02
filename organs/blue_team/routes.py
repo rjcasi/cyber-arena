@@ -37,3 +37,13 @@ def deception():
     count = int(request.form.get("count", 5))
     events = generate_deception_events(count)
     return render_template("blue_team/dashboard.html", deception_events=events)
+
+latest_blue_events = []
+
+def emit_blue_event(event):
+    latest_blue_events.append(event)
+    if len(latest_blue_events) > 10:
+        latest_blue_events.pop(0)
+
+def get_latest_blue_events():
+    return latest_blue_events

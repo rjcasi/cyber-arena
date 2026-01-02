@@ -31,3 +31,13 @@ def ai_attack():
     vector = request.form.get("vector", "")
     result = simulate_ai_attack(vector)
     return render_template("red_team/dashboard.html", ai_results=result)
+
+latest_red_events = []
+
+def emit_red_event(event):
+    latest_red_events.append(event)
+    if len(latest_red_events) > 10:
+        latest_red_events.pop(0)
+
+def get_latest_red_events():
+    return latest_red_events

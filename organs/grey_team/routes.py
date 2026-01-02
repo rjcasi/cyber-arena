@@ -30,3 +30,14 @@ def automation():
     task = request.form.get("task", "")
     output = run_automation_task(task)
     return render_template("grey_team/dashboard.html", automation_output=output)
+
+
+latest_grey_events = []
+
+def emit_grey_event(event):
+    latest_grey_events.append(event)
+    if len(latest_grey_events) > 10:
+        latest_grey_events.pop(0)
+
+def get_latest_grey_events():
+    return latest_grey_events

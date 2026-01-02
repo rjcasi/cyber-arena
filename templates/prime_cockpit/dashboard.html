@@ -1,0 +1,93 @@
+<h1>Prime Cockpit</h1>
+<p>Unified Arena Control Center</p>
+
+<h2>System Heartbeat: <span id="heartbeat">{{ heartbeat }}</span></h2>
+
+<hr>
+
+<h3>Organ Status</h3>
+<ul id="organ-status">
+    {% for organ, status in organ_status.items() %}
+        <li>{{ organ }}: {{ status }}</li>
+    {% endfor %}
+</ul>
+
+<hr>
+
+<h3>Cybernaut Memory (last 5 entries)</h3>
+<ul id="memory">
+    {% for item in memory %}
+        <li>{{ item }}</li>
+    {% endfor %}
+</ul>
+
+<hr>
+
+<h3>Activity Feed</h3>
+<ul id="activity">
+    {% for event in activity %}
+        <li>{{ event }}</li>
+    {% endfor %}
+</ul>
+
+<hr>
+
+<h3>Math Engine (last computation)</h3>
+<pre id="math-telemetry">{{ math_telemetry }}</pre>
+
+<hr>
+
+<h3>Modules</h3>
+<ul>
+    <li><a href="/red">Red Team Organ</a></li>
+    <li><a href="/blue">Blue Team Organ</a></li>
+    <li><a href="/grey">Grey Team Organ</a></li>
+    <li><a href="/cybernauts">Cybernaut Cockpit</a></li>
+    <li><a href="/math">Math Engine</a></li>
+</ul>
+
+<hr>
+
+<script>
+async function updateCockpit() {
+    const res = await fetch("/prime/status");
+    const data = await res.json();
+
+    // Heartbeat
+    document.getElementById("heartbeat").innerText = data.heartbeat;
+
+    // Organ status
+    const organList = document.getElementById("organ-status");
+    organList.innerHTML = "";
+    for (const [organ, status] of Object.entries(data.organ_status)) {
+        const li = document.createElement("li");
+        li.textContent = `${organ}: ${status}`;
+        organList.appendChild(li);
+    }
+
+    // Cybernaut memory
+    const memList = document.getElementById("memory");
+    memList.innerHTML = "";
+    data.memory.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        memList.appendChild(li);
+    });
+
+    // Activity feed
+    const actList = document.getElementById("activity");
+    actList.innerHTML = "";
+    data.activity.forEach(event => {
+        const li = document.createElement("li");
+        li.textContent = event;
+        actList.appendChild(li);
+    });
+
+    // Math Engine telemetry
+    document.getElementById("math-telemetry").innerText = data.math_telemetry;
+}
+
+// Update every 2 seconds
+setInterval(updateCockpit, 2000);
+updateCockpit();
+</script>
